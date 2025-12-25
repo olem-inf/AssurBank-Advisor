@@ -1,0 +1,17 @@
+# Sécurité : Ne jamais envoyer les clés API
+.env
+
+# Système : Ne pas envoyer les fichiers temporaires Python
+__pycache__/
+*.pyc
+
+# Environnement virtuel (trop lourd, inutile)
+.venv/
+venv/
+env/
+
+# Base de données (on ne versionne pas les données locales)
+*.sqlite
+*.db
+chroma_db/
+app/data/documents/

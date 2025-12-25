@@ -1,0 +1,26 @@
+services:
+  # Service 1 : Le Cerveau (API)
+  api:
+    build: .
+    container_name: assurbank-api
+    command: uvicorn app.server:app --host 0.0.0.0 --port 8000
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      - ./app/data:/app/app/data # Pour garder la mémoire de la DB
+
+  # Service 2 : Le Visage (Streamlit)
+  frontend:
+    build: .
+    container_name: assurbank-frontend
+    # On surcharge la commande pour lancer Streamlit au lieu de l'API
+    command: streamlit run app/frontend.py --server.port 8501 --server.address 0.0.0.0
+    ports:
+      - "8501:8501"
+    environment:
+      # On dit à Streamlit où trouver l'API (nom du service docker 'api')
+      - API_URL=http://api:8000/chat
+    depends_on:
+      - api
